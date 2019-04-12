@@ -68,6 +68,6 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
 # Install hicn module in sysrepo
 ##################################
 WORKDIR /tmp
-RUN curl -OL ${HICN_YANG_MODEL} && sysrepoctl --install --yang=hicn.yang -S
+RUN curl -s ${HICN_YANG_MODEL} | bash
 
 WORKDIR /
