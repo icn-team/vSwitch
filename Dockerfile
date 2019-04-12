@@ -49,22 +49,25 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   && curl -OL ${SYSREPO_PLUGIN_URL} \
   # Install sysrepo hicn plugin                                                                 \
   && apt-get install -y ./hicn_sysrepo_plugin-19.01-176-release-Linux.deb --no-install-recommends \
-  #################################
-  # Install hicn module in sysrepo
-  ##################################
-  && curl -OL ${HICN_YANG_MODEL} && sysrepoctl --install --yang=hicn.yang -S\
   ###################################################                                           \
   # Clean up                                                                                    \
   ###################################################                                           \
-  && apt-get remove -y curl git cmake build-essential libasio-dev \
-                      libcurl4-openssl-dev libev-dev libevent-dev \
-                      libparc-dev libpcre3-dev libprotobuf-c-dev \
+  && apt-get remove -y git cmake build-essential libasio-dev \
+                      libcurl4-openssl-dev libev-dev libpcre3-dev libprotobuf-c-dev \
                       libssh-dev libssl-dev protobuf-c-compiler swig \
+  && apt-get install libprotobuf-c1 libev4\
   && rm -rf /var/lib/apt/lists/* \
   && apt-get autoremove -y \
   && apt-get clean && rm -r /hicn\
   ####################################################
   # Delete library for hicn-plugin
   ####################################################
-  && rm ${HICN_PLUGIN_LIB}
+  && rm ${HICNLIGHT_PLUGIN_LIB}
+
+#################################
+# Install hicn module in sysrepo
+##################################
+WORKDIR /tmp
+RUN curl -OL ${HICN_YANG_MODEL} && sysrepoctl --install --yang=hicn.yang -S
+
 WORKDIR /
