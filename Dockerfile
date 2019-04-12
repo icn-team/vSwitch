@@ -4,8 +4,6 @@ FROM ubuntu:18.04
 WORKDIR /hicn
 ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/job/hicn-sysrepo-plugin-verify-master/lastSuccessfulBuild/artifact/scripts/build/hicn_sysrepo_plugin-19.01-176-release-Linux.deb
 ENV HICNLIGHT_PLUGIN_LIB=/usr/lib/x86_64-linux-gnu/sysrepo/plugins/libhicnlight.so
-ENV YANG_MODEL_INSTALL_SCRIPT=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_fetch.sh
-ENV YANG_MODEL_LIST=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_list.txt
 
 # Use bash shell
 SHELL ["/bin/bash", "-c"]
@@ -70,6 +68,8 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
 ##################################
 WORKDIR /tmp
 
+ENV YANG_MODEL_INSTALL_SCRIPT=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_fetch.sh
+ENV YANG_MODEL_LIST=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_list.txt
 RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | bash
 
 WORKDIR /
