@@ -4,7 +4,7 @@ FROM ubuntu:18.04
 WORKDIR /hicn
 ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/job/hicn-sysrepo-plugin-verify-master/lastSuccessfulBuild/artifact/scripts/build/hicn_sysrepo_plugin-19.01-176-release-Linux.deb
 ENV HICNLIGHT_PLUGIN_LIB=/usr/lib/x86_64-linux-gnu/sysrepo/plugins/libhicnlight.so
-ENV HICN_YANG_MODEL=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang-models/hicn.yang
+ENV HICN_YANG_MODEL=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_fetch.sh
 
 # Use bash shell
 SHELL ["/bin/bash", "-c"]
