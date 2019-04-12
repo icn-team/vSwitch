@@ -24,13 +24,7 @@ read_yang_list() {
         ((NYANG++))
     done < "${1}"
     
-    if [ ${?} = 0 ];
-    then
-        message "Yang model added successfully" "OK"    
-    else
-        message "error reading yang models from yang_list.txt" "ERR"
-        exit ${EXIT_CODE}
-    fi
+    message "Yang model added successfully" "OK"    
     ((NYANG--))
 }
 
