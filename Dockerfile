@@ -54,7 +54,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   && apt-get remove -y git cmake build-essential libasio-dev \
                       libcurl4-openssl-dev libev-dev libpcre3-dev libprotobuf-c-dev \
                       libssh-dev libssl-dev protobuf-c-compiler swig \
-  && apt-get install libprotobuf-c1 libev4\
+  && apt-get install libprotobuf-c1 libev4 libssh-4\
   && rm -rf /var/lib/apt/lists/* \
   && apt-get autoremove -y \
   && apt-get clean && rm -r /hicn\
@@ -70,6 +70,6 @@ WORKDIR /tmp
 
 ENV YANG_MODEL_INSTALL_SCRIPT=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_fetch.sh
 ENV YANG_MODEL_LIST=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_list.txt
-RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="xterm" bash       -x  
+RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="xterm" bash -x  
 
 WORKDIR /
