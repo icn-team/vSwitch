@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 # Build hicn suite (from source for disabling punting)
 WORKDIR /hicn
-ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/job/hicn-sysrepo-plugin-verify-master/lastSuccessfulBuild/artifact/scripts/build/hicn_sysrepo_plugin-19.01-176-release-Linux.deb
+ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/view/hicn/job/hicn-sysrepo-plugin-verify-master/lastBuild/artifact/scripts/build/hicn_sysrepo_plugin-19.01-220-release-Linux.deb
 ENV HICNLIGHT_PLUGIN_LIB=/usr/lib/x86_64-linux-gnu/sysrepo/plugins/libhicnlight.so
 
 # Use bash shell
