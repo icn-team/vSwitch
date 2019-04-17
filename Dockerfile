@@ -2,7 +2,8 @@ FROM ubuntu:18.04
 
 # Build hicn suite (from source for disabling punting)
 WORKDIR /hicn
-ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/view/hicn/job/hicn-sysrepo-plugin-verify-master/lastBuild/artifact/scripts/build/hicn_sysrepo_plugin-19.01-220-release-Linux.deb
+ENV SYSREPO_PLUGIN_DEB=hicn_sysrepo_plugin-19.01-220-release-Linux.deb
+ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/view/hicn/job/hicn-sysrepo-plugin-verify-master/lastBuild/artifact/scripts/build/${SYSREPO_PLUGIN_DEB}
 ENV HICNLIGHT_PLUGIN_LIB=/usr/lib/x86_64-linux-gnu/sysrepo/plugins/libhicnlight.so
 
 # Use bash shell
@@ -47,7 +48,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   # Download sysrepo plugin                                                                     \
   && curl -OL ${SYSREPO_PLUGIN_URL} \
   # Install sysrepo hicn plugin                                                                 \
-  && apt-get install -y ./hicn_sysrepo_plugin-19.01-176-release-Linux.deb --no-install-recommends \
+  && apt-get install -y ./${SYSREPO_PLUGIN_DEB} --no-install-recommends \
   ###################################################                                           \
   # Clean up                                                                                    \
   ###################################################                                           \
