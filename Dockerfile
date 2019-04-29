@@ -2,8 +2,8 @@ FROM ubuntu:18.04
 
 # Build hicn suite (from source for disabling punting)
 WORKDIR /hicn
-ENV SYSREPO_PLUGIN_DEB=hicn_sysrepo_plugin-19.01-220-release-Linux.deb
-ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/view/hicn/job/hicn-sysrepo-plugin-verify-master/lastBuild/artifact/scripts/build/${SYSREPO_PLUGIN_DEB}
+ENV SYSREPO_PLUGIN_DEB=hicn_sysrepo_plugin-19.01-212-release-Linux.deb
+ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/job/hicn-sysrepo-plugin-verify-master/44/artifact/scripts/build/${SYSREPO_PLUGIN_DEB}
 ENV HICNLIGHT_PLUGIN_LIB=/usr/lib/x86_64-linux-gnu/sysrepo/plugins/libhicnlight.so
 
 # Use bash shell
@@ -12,10 +12,15 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get install -y curl
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
 
+# Install hicn-plugin
+
+RUN apt-get install -y hicn-plugin vpp=19.01.1-release vpp-lib=19.01.1-release vpp-dev=19.01.1-release
+
 # Install main packages
 RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
     libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
-    libssh-dev libcurl4-openssl-dev libasio-dev hicn-plugin --no-install-recommends ;\
+    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends ;\
+
   # Install hicn dependencies                                                                   \
   rm -rf /var/lib/apt/lists/* \
   ###############################################                                               \
