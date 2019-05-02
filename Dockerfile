@@ -16,10 +16,13 @@ RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb
 
 RUN apt-get install -y hicn-plugin vpp=19.01.1-release vpp-lib=19.01.1-release vpp-dev=19.01.1-release
 
+# Install utils for hiperf
+RUN  apt-get install -y hicn-utils-memif=19.01-227-release
+
 # Install main packages
 RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
     libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
-    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends ;\
+    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends openssh-server ;\
 
   # Install hicn dependencies                                                                   \
   rm -rf /var/lib/apt/lists/* \
@@ -76,6 +79,6 @@ WORKDIR /tmp
 
 ENV YANG_MODEL_INSTALL_SCRIPT=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_fetch.sh
 ENV YANG_MODEL_LIST=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_list.txt
-RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="xterm" bash -x  
-
+RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="xterm" bash -x
+RUN echo "1" | chpasswd
 WORKDIR /
