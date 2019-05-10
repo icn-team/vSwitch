@@ -2,30 +2,31 @@ FROM ubuntu:18.04
 
 # Build hicn suite (from source for disabling punting)
 WORKDIR /hicn
-ENV SYSREPO_PLUGIN_DEB=hicn_sysrepo_plugin-19.01-212-release-Linux.deb
-ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/job/hicn-sysrepo-plugin-verify-master/44/artifact/scripts/build/${SYSREPO_PLUGIN_DEB}
+ENV SYSREPO_PLUGIN_DEB=hicn_sysrepo_plugin-19.04-15-release-Linux.deb
+ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/job/hicn-sysrepo-plugin-verify-master/48/artifact/scripts/build/${SYSREPO_PLUGIN_DEB}
 ENV HICNLIGHT_PLUGIN_LIB=/usr/lib/x86_64-linux-gnu/sysrepo/plugins/libhicnlight.so
 
 # Use bash shell
 SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update && apt-get update && apt-get install -y curl
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
+RUN apt-get update
 
 # Install hicn-plugin
 
-RUN apt-get install -y hicn-plugin vpp=19.01.1-release vpp-lib=19.01.1-release vpp-dev=19.01.1-release
+RUN apt-get install -y vpp libvppinfra vpp-plugin-core hicn-plugin hicn-utils-memif libhicntransport-memif
 
 # Install utils for hiperf
-RUN  apt-get install -y hicn-utils-memif=19.01-227-release
+RUN  apt-get update && apt-get install -y iproute2 net-tools ethtool
 
 # Install main packages
 RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
     libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
-    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends openssh-server ;\
+    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends openssh-server
 
   # Install hicn dependencies                                                                   \
-  rm -rf /var/lib/apt/lists/* \
+RUN rm -rf /var/lib/apt/lists/* \
   ###############################################                                               \
   # Build libyang from source                                                                   \
   ################################################                                              \
@@ -80,4 +81,6 @@ WORKDIR /tmp
 ENV YANG_MODEL_INSTALL_SCRIPT=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_fetch.sh
 ENV YANG_MODEL_LIST=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_list.txt
 RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="xterm" bash -x
+COPY ifname.sh .
+
 WORKDIR /
