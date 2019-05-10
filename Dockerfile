@@ -23,7 +23,7 @@ RUN  apt-get update && apt-get install -y iproute2 net-tools ethtool
 # Install main packages
 RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
     libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
-    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends openssh-server
+    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends openssh-server dumb-init
 
   # Install hicn dependencies                                                                   \
 RUN rm -rf /var/lib/apt/lists/* \
