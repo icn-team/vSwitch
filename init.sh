@@ -32,6 +32,7 @@ elif  [ $HOSTNAME = "host-vs2" ]
      ethtool -K eth9 tx off rx off ufo off gso off gro off tso off
      ethtool -K eth10 tx off rx off ufo off gso off gro off tso off
      ethtool -K eth11 tx off rx off ufo off gso off gro off tso off
+fi
 /usr/bin/vpp -c /etc/vpp/super_startup.conf &
 sleep 2
 sysrepod 

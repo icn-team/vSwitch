@@ -30,34 +30,34 @@ RUN rm -rf /var/lib/apt/lists/* \
   ###############################################                                               \
   # Build libyang from source                                                                   \
   ################################################                                              \
-  && git clone https://github.com/CESNET/libyang \
-  && mkdir -p libyang/build \
-  && pushd libyang/build && cmake -DCMAKE_INSTALL_PREFIX=/usr .. && make -j 4 install && popd \
+  && git clone https://github.com/CESNET/libyang                                                \
+  && mkdir -p libyang/build                                                                     \
+  && pushd libyang/build && cmake -DCMAKE_INSTALL_PREFIX=/usr .. && make -j 4 install && popd   \
   ########################################################################################      \
   # Build sysrepo from source                                                                   \
   ########################################################################################      \
-  && git clone https://github.com/sysrepo/sysrepo.git \
-  && mkdir -p sysrepo/build \
-  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .. \
-  && make -j 4 install && popd \
+  && git clone https://github.com/sysrepo/sysrepo.git                                           \
+  && mkdir -p sysrepo/build                                                                     \
+  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..     \
+  && make -j 4 install && popd    \
   ############################################################                                  \
   # Build libnetconf2 from source                                                               \
   ############################################################                                  \
-  && git clone https://github.com/CESNET/libnetconf2 \
-  && mkdir -p libnetconf2/build \
+  && git clone https://github.com/CESNET/libnetconf2                                            \
+  && mkdir -p libnetconf2/build                                                                 \
   && pushd libnetconf2/build && cmake -DCMAKE_INSTALL_PREFIX=/usr .. && make -j4 install && popd\
   ############################################################                                  \
   # Build Netopeer                                                                              \
   ############################################################                                  \
-  && git clone https://github.com/CESNET/Netopeer2 \
-  && mkdir -p Netopeer2/server/build \
-  && pushd Netopeer2/server/build && cmake -DCMAKE_INSTALL_PREFIX=/usr .. \
-  && make -j 4 install && popd \
+  && git clone https://github.com/CESNET/Netopeer2                                              \
+  && mkdir -p Netopeer2/server/build                                                            \
+  && pushd Netopeer2/server/build && cmake -DCMAKE_INSTALL_PREFIX=/usr ..                       \
+  && make -j 4 install && popd                                                                  \
   #####################################################################                         \
   # Download sysrepo plugin                                                                     \
-  && curl -OL ${SYSREPO_PLUGIN_URL} \
+  && curl -OL ${SYSREPO_PLUGIN_URL}                                                             \
   # Install sysrepo hicn plugin                                                                 \
-  && apt-get install -y ./${SYSREPO_PLUGIN_DEB} --no-install-recommends \
+  && apt-get install -y ./${SYSREPO_PLUGIN_DEB} --no-install-recommends                         \
   ###################################################                                           \
   # Clean up                                                                                    \
   ###################################################                                           \
