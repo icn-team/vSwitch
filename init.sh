@@ -34,6 +34,7 @@ elif  [ $HOSTNAME = "host-vs2" ]
      ethtool -K eth11 tx off rx off ufo off gso off gro off tso off
 fi
 /usr/bin/vpp -c /etc/hicn/super_startup.conf &>log.txt &
+sleep 20
 sysrepod
 sysrepo-plugind
 netopeer2-server
