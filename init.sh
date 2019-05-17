@@ -35,8 +35,8 @@ elif  [ $HOSTNAME = "host-vs2" ]
 fi
 /usr/bin/vpp -c /etc/hicn/super_startup.conf &>log.txt &
 sleep 20
-sysrepod
-sysrepo-plugind
-netopeer2-server
+sysrepod -d -l 0 &
+sysrepo-plugind -d -l 0 &
+netopeer2-server -d -v 0 &
 trap "kill -9 $$" SIGHUP SIGINT SIGTERM SIGCHLD
 wait
