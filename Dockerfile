@@ -15,7 +15,8 @@ RUN apt-get update
 
 # Install hicn-plugin
 
-RUN apt-get install -y vpp libvppinfra vpp-plugin-core hicn-plugin hicn-utils-memif libhicntransport-memif
+RUN apt-get install -y vpp libvppinfra vpp-plugin-core
+#hicn-plugin hicn-utils-memif libhicntransport-memif
 
 # Install utils for hiperf
 RUN  apt-get update && apt-get install -y iproute2 net-tools ethtool
@@ -53,6 +54,12 @@ RUN rm -rf /var/lib/apt/lists/* \
   && mkdir -p Netopeer2/server/build                                                            \
   && pushd Netopeer2/server/build && cmake -DCMAKE_INSTALL_PREFIX=/usr ..                       \
   && make -j 4 install && popd                                                                  \
+  #####################################################################                         \
+  && git clone https://github.com/FDio/hicn.git                                                 \
+  sed -i 's/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 20/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 260/g' hicn/hicn-plugin/src/params.h\
+  && mkdir build && pushd build                                                                 \
+  && cmake ../hicn -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_HICNPLUGIN=on -DBUILD_APPS=On            \
+  && make -j4 install && popd                                                                   \
   #####################################################################                         \
   # Download sysrepo plugin                                                                     \
   && curl -OL ${SYSREPO_PLUGIN_URL}                                                             \
