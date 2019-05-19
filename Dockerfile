@@ -15,7 +15,7 @@ RUN apt-get update
 
 # Install hicn-plugin
 
-RUN apt-get install -y vpp libvppinfra vpp-plugin-core
+RUN apt-get install -y vpp libvppinfra vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply
 #hicn-plugin hicn-utils-memif libhicntransport-memif
 
 # Install utils for hiperf
@@ -54,15 +54,24 @@ RUN rm -rf /var/lib/apt/lists/* \
   && mkdir -p Netopeer2/server/build                                                            \
   && pushd Netopeer2/server/build && cmake -DCMAKE_INSTALL_PREFIX=/usr ..                       \
   && make -j 4 install && popd                                                                  \
+  ############################################################                                  \
+  # Build libmemif                                                                              \
+  ############################################################                                  \
+  && git clone https://gerrit.fd.io/r/vpp                                                       \
+  && pushd vpp && git checkout origin/stable/1904                                               \
+  && pushd extras/libmemif                                                                      \
+  && mkdir build && pushd build                                                                 \
+  && cmake ../ -DCMAKE_INSTALL_PREFIX=/usr                                                      \
+  && make -j4 install && popd && popd && popd                                                   \
   #####################################################################                         \
   && git clone https://github.com/FDio/hicn.git                                                 \
-  sed -i 's/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 20/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 260/g' hicn/hicn-plugin/src/params.h\
+  && sed -i 's/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 20/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 260/g' hicn/hicn-plugin/src/params.h\
   && mkdir build && pushd build                                                                 \
   && cmake ../hicn -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_HICNPLUGIN=on -DBUILD_APPS=On            \
   && make -j4 install && popd                                                                   \
   #####################################################################                         \
   # Download sysrepo plugin                                                                     \
-    && curl -OL ${SYSREPO_PLUGIN_URL}                                                             \
+  && curl -OL ${SYSREPO_PLUGIN_URL}                                                             \
 #   Install sysrepo hicn plugin                                                                 \
   && apt-get install -y ./${SYSREPO_PLUGIN_DEB} --no-install-recommends                         \
   ###################################################                                           \
