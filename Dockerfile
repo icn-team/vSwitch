@@ -3,7 +3,7 @@ FROM ubuntu:18.04
 # Build hicn suite (from source for disabling punting)
 WORKDIR /hicn
 ENV SYSREPO_PLUGIN_DEB=hicn_sysrepo_plugin-19.04-24-release-Linux.deb
-ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/job/hicn-sysrepo-plugin-verify-master/53/artifact/scripts/build/${SYSREPO_PLUGIN_DEB}
+ENV SYSREPO_PLUGIN_URL=https://jenkins.fd.io/job/hicn-sysrepo-plugin-verify-master/57/artifact/scripts/build/${SYSREPO_PLUGIN_DEB}
 ENV HICNLIGHT_PLUGIN_LIB=/usr/lib/x86_64-linux-gnu/sysrepo/plugins/libhicnlight.so
 
 # Use bash shell
@@ -62,10 +62,11 @@ RUN rm -rf /var/lib/apt/lists/* \
   && make -j4 install && popd                                                                   \
   #####################################################################                         \
   # Download sysrepo plugin                                                                     \
-  && curl -OL ${SYSREPO_PLUGIN_URL}                                                             \
-  # Install sysrepo hicn plugin                                                                 \
+    && curl -OL ${SYSREPO_PLUGIN_URL}                                                             \
+#   Install sysrepo hicn plugin                                                                 \
   && apt-get install -y ./${SYSREPO_PLUGIN_DEB} --no-install-recommends                         \
   ###################################################                                           \
+ 
   # Clean up                                                                                    \
   ###################################################                                           \
   && apt-get remove -y git cmake build-essential libasio-dev \
