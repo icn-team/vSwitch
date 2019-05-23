@@ -6,7 +6,7 @@ do
     ethtool -K $i tx off rx off ufo off gso off gro off tso off
 done
 
-/usr/bin/vpp -c /etc/hicn/super_startup.conf &>log.txt &
+/usr/bin/vpp -c /etc/hicn/super_startup.config &>log.txt &
 sleep 20
 sysrepod -d -l 0 &
 sysrepo-plugind -d -l 0 &
