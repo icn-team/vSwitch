@@ -90,7 +90,6 @@ RUN rm -rf /var/lib/apt/lists/* \
   ####################################################
   && rm ${HICNLIGHT_PLUGIN_LIB}
 
-RUN echo 'root:1' | chpasswd
 
 #################################
 # Install hicn module in sysrepo
