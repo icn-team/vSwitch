@@ -14,6 +14,6 @@ sysrepo-plugind -d -l 0 &
 sleep 5
 netopeer2-server -d -v 0 &
 sleep 5
-RUN echo 'root:1' | chpasswd
+echo 'root:1' | chpasswd
 trap "kill -9 $$" SIGHUP SIGINT SIGTERM SIGCHLD
 wait
