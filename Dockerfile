@@ -16,7 +16,6 @@ RUN apt-get update
 # Install hicn-plugin
 
 RUN apt-get install -y vpp libvppinfra vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply
-#hicn-plugin hicn-utils-memif libhicntransport-memif
 
 # Install utils for hiperf
 RUN  apt-get update && apt-get install -y iproute2 net-tools ethtool
@@ -67,15 +66,14 @@ RUN rm -rf /var/lib/apt/lists/* \
   && git clone https://github.com/FDio/hicn.git                                                 \
   && sed -i 's/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 20/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 260/g' hicn/hicn-plugin/src/params.h\
   && mkdir build && pushd build                                                                 \
-  && cmake ../hicn -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_HICNPLUGIN=on -DBUILD_APPS=On            \
+  && cmake ../hicn -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_HICNPLUGIN=on                            \
   && make -j4 install && popd                                                                   \
   #####################################################################                         \
   # Download sysrepo plugin                                                                     \
   && curl -OL ${SYSREPO_PLUGIN_URL}                                                             \
-#   Install sysrepo hicn plugin                                                                 \
+  #   Install sysrepo hicn plugin                                                               \
   && apt-get install -y ./${SYSREPO_PLUGIN_DEB} --no-install-recommends                         \
   ###################################################                                           \
- 
   # Clean up                                                                                    \
   ###################################################                                           \
   && apt-get remove -y git cmake build-essential libasio-dev \
@@ -85,9 +83,9 @@ RUN rm -rf /var/lib/apt/lists/* \
   && rm -rf /var/lib/apt/lists/* \
   && apt-get autoremove -y \
   && apt-get clean && rm -r /hicn\
-  ####################################################
-  # Delete library for hicn-plugin
-  ####################################################
+  ####################################################\
+  # Delete library for hicn-plugin\
+  ####################################################\
   && rm ${HICNLIGHT_PLUGIN_LIB}
 
 
