@@ -11,7 +11,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get update && apt-get install -y curl
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-RUN apt-get update
+RUN apt-get -y update 
 
 # Install hicn-plugin
 
@@ -23,10 +23,7 @@ RUN  apt-get update && apt-get install -y iproute2 net-tools ethtool
 # Install main packages
 RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
     libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
-    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends openssh-server dumb-init
-
-  # Install hicn dependencies                                                                   \
-RUN rm -rf /var/lib/apt/lists/* \
+    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends openssh-server dumb-init\
   ###############################################                                               \
   # Build libyang from source                                                                   \
   ################################################                                              \
@@ -39,7 +36,7 @@ RUN rm -rf /var/lib/apt/lists/* \
   && git clone https://github.com/sysrepo/sysrepo.git                                           \
   && mkdir -p sysrepo/build                                                                     \
   && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..     \
-  && make -j 4 install && popd    \
+  && make -j 4 install && popd                                                                  \
   ############################################################                                  \
   # Build libnetconf2 from source                                                               \
   ############################################################                                  \
@@ -76,16 +73,16 @@ RUN rm -rf /var/lib/apt/lists/* \
   ###################################################                                           \
   # Clean up                                                                                    \
   ###################################################                                           \
-  && apt-get remove -y git cmake build-essential libasio-dev \
-                      libcurl4-openssl-dev libev-dev libpcre3-dev libprotobuf-c-dev \
-                      libssh-dev libssl-dev protobuf-c-compiler swig \
-  && apt-get install libprotobuf-c1 libev4 libssh-4\
-  && rm -rf /var/lib/apt/lists/* \
-  && apt-get autoremove -y \
-  && apt-get clean && rm -r /hicn\
-  ####################################################\
-  # Delete library for hicn-plugin\
-  ####################################################\
+  && apt-get remove -y git cmake build-essential libasio-dev                                    \
+                      libcurl4-openssl-dev libev-dev libpcre3-dev libprotobuf-c-dev             \
+                      libssh-dev libssl-dev protobuf-c-compiler swig                            \
+  && apt-get install libprotobuf-c1 libev4 libssh-4                                             \
+  && rm -rf /var/lib/apt/lists/*                                                                \
+  && apt-get autoremove -y                                                                      \
+  && apt-get clean && rm -r /hicn                                                               \
+  ####################################################                                          \
+  # Delete library for hicn-plugin                                                              \
+  ####################################################                                          \
   && rm ${HICNLIGHT_PLUGIN_LIB}
 
 
@@ -100,3 +97,4 @@ RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="
 COPY init.sh .
 
 WORKDIR /
+CMD ["/tmp/init.sh"]
