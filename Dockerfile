@@ -11,7 +11,7 @@ SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update && apt-get update && apt-get install -y curl
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-RUN apt-get -y update 
+RUN apt-get -y update
 
 # Install hicn-plugin
 
@@ -22,8 +22,8 @@ RUN  apt-get update && apt-get install -y iproute2 net-tools ethtool
 
 # Install main packages
 RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
-    libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
-    libssh-dev libcurl4-openssl-dev libasio-dev --no-install-recommends openssh-server dumb-init\
+  libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
+  libssh-dev libcurl4-openssl-dev libasio-dev libconfig-dev --no-install-recommends openssh-server dumb-init\
   ###############################################                                               \
   # Build libyang from source                                                                   \
   ################################################                                              \
@@ -54,7 +54,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   # Build libmemif                                                                              \
   ############################################################                                  \
   && git clone https://gerrit.fd.io/r/vpp                                                       \
-  && pushd vpp && git checkout origin/stable/1904                                               \
+  && pushd vpp && git checkout origin/stable/1908                                               \
   && pushd extras/libmemif                                                                      \
   && mkdir build && pushd build                                                                 \
   && cmake ../ -DCMAKE_INSTALL_PREFIX=/usr                                                      \
@@ -63,7 +63,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   && git clone https://github.com/FDio/hicn.git                                                 \
   && sed -i 's/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 20/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 260/g' hicn/hicn-plugin/src/params.h\
   && mkdir build && pushd build                                                                 \
-  && cmake ../hicn -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_HICNPLUGIN=on                            \
+  && cmake ../hicn -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_HICNPLUGIN=on -DBUILD_HICNLIGHT=Off -DBUILD_CTRL=Off \
   && make -j4 install && popd                                                                   \
   #####################################################################                         \
   # Download sysrepo plugin                                                                     \
@@ -74,8 +74,8 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   # Clean up                                                                                    \
   ###################################################                                           \
   && apt-get remove -y git cmake build-essential libasio-dev                                    \
-                      libcurl4-openssl-dev libev-dev libpcre3-dev libprotobuf-c-dev             \
-                      libssh-dev libssl-dev protobuf-c-compiler swig                            \
+  libcurl4-openssl-dev libev-dev libpcre3-dev libprotobuf-c-dev             \
+  libssh-dev libssl-dev protobuf-c-compiler swig                            \
   && apt-get install libprotobuf-c1 libev4 libssh-4                                             \
   && rm -rf /var/lib/apt/lists/*                                                                \
   && apt-get autoremove -y                                                                      \
