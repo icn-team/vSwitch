@@ -1,15 +1,26 @@
 name: Docker Image CI
 on: [push]
 jobs:
-  build:
+  buildx:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Create Image and Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: icn-team/vswitch/core:latest
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        registry: docker.pkg.github.com
-        dockerfile: Dockerfile
+      - name: Checkout
+        uses: actions/checkout@v1
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          version: latest
+      - name: Run Buildx
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --output "type=image,push=false" \
+            --file Dockerfile -t icn-team/vswitch/core:latest .
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: icn-team/vswitch/core:latest
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: docker.pkg.github.com:
