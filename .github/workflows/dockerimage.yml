@@ -28,7 +28,7 @@ jobs:
       - name: Publish to DockerHub
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: icnteam/vswitch/core:latest 
+          name: icnteam/vswitch:latest 
           run: docker tag icnteam/vswitch:latest icn-team/vswitch/core:latest
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
