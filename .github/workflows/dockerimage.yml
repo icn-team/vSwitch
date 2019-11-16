@@ -21,7 +21,7 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: icnteam/vswitch/core:latest
-          username: icnteam
+          username: muscariello
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
