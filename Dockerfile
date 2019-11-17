@@ -23,27 +23,27 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   ###############################################                                               \
   # Build libyang                                                                               \
   ################################################                                              \
-  && git clone https://github.com/CESNET/libyang                                                \
+  && git clone https://github.com/CESNET/libyang --branch v1.0-r4 --depth 1                     \
   && mkdir -p libyang/build                                                                     \
   && pushd libyang/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root .. && make -j 4 install && popd   \
   ########################################################################################      \
   # Build sysrepo                                                                               \
   ########################################################################################      \
-  && git clone https://github.com/sysrepo/sysrepo.git                                           \
+  && git clone https://github.com/sysrepo/sysrepo.git --branch v0.7.8 --depth 1                 \
   && mkdir -p sysrepo/build                                                                     \
   && sed -i 's/\/etc\/sysrepo/\/hicn-root/' sysrepo/CMakeLists.txt                              \
-  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root ..  \
+  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root ..  \
   && make -j 4 install && popd                                                                  \
   ############################################################                                  \
   # Build libnetconf2                                                                           \
   ############################################################                                  \
-  && git clone https://github.com/CESNET/libnetconf2                                            \
+  && git clone https://github.com/CESNET/libnetconf2 --branch v0.12-r2 --depth 1                \
   && mkdir -p libnetconf2/build                                                                 \
   && pushd libnetconf2/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root .. && make -j4 install && popd\
   ############################################################                                  \
   # Build Netopeer                                                                              \
   ############################################################                                  \
-  && git clone https://github.com/CESNET/Netopeer2                                              \
+  && git clone https://github.com/CESNET/Netopeer2 --branch v0.7-r2 --depth 1                   \
   && mkdir -p Netopeer2/server/build                                                            \
   && pushd Netopeer2/server/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root .. \
   && make -j 4 install && popd                                                              
