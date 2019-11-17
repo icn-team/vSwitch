@@ -32,7 +32,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   && git clone https://github.com/sysrepo/sysrepo.git                                           \
   && mkdir -p sysrepo/build                                                                     \
   && sed -i 's/\/etc\/sysrepo/\/hicn-root/' sysrepo/CMakeLists.txt                              \
-  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root ..  \
+  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root ..  \
   && make -j 4 install && popd                                                                  \
   ############################################################                                  \
   # Build libnetconf2                                                                           \
