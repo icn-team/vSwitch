@@ -29,10 +29,10 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   ########################################################################################      \
   # Build sysrepo                                                                               \
   ########################################################################################      \
-  && git clone https://github.com/sysrepo/sysrepo.git --branch v0.7.8 --depth 1                 \
+  && git clone https://github.com/sysrepo/sysrepo.git --branch devel --depth 1                 \
   && mkdir -p sysrepo/build                                                                     \
   && sed -i 's/\/etc\/sysrepo/\/hicn-root/' sysrepo/CMakeLists.txt                              \
-  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root ..  \
+  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC:PATH=/hicn-root/etc/sysrepo ..  \
   && make -j 4 install && popd                                                                  \
   ############################################################                                  \
   # Build libnetconf2                                                                           \
@@ -61,13 +61,11 @@ RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="
 
 FROM ubuntu:18.04
 
-COPY --from=intermediate /hicn-root /hicn-root
-COPY --from=intermediate /hicn-build/sysrepo/  /hicn-build/sysrepo/
-COPY --from=intermediate /hicn-build/hicn  /hicn-build/hicn
+COPY --from=intermediate /hicn-root /
 
-RUN apt-get update && apt-get install -y curl libprotobuf-c-dev libev-dev libavl-dev libssh-dev
+RUN apt-get update && apt-get install -y curl libprotobuf-c libev libavl libssh
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-RUN apt-get update && apt-get install -y supervisor vpp libvppinfra vpp-plugin-core vpp-dev libhicn-dev
+RUN apt-get update && apt-get install -y supervisor hicn-plugin
 
 WORKDIR /
 
