@@ -29,7 +29,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   && mkdir -p sysrepo/build                                                                     \
   && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE:String="Release" ..                        \
   && make -j 4 install && ldconfig && popd                                                                  \
-  ############################################################                                  \
+ ############################################################                                  \
   # Build libnetconf2                                                                           \
   ############################################################                                  \
   && git clone https://github.com/CESNET/libnetconf2 --branch devel --depth 1                   \
@@ -58,7 +58,6 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
 FROM ubuntu:18.04
 
 COPY --from=intermediate /usr/local /usr/local
-
 RUN apt-get update && apt-get install -y curl libprotobuf-c libev libavl libssh
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
 RUN apt-get update && apt-get install -y supervisor hicn-plugin
