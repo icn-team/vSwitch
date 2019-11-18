@@ -1,4 +1,4 @@
-name: Docker Image CI amd64
+name: Docker Image CI arm64
 on: [push]
 jobs:
   buildx:
@@ -15,20 +15,13 @@ jobs:
         run: |
           docker buildx build \
             --platform linux/amd64 \
-            --output "type=image,push=false" \
-            --file Dockerfile -t icn-team/vswitch/core:latest .
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: icn-team/vswitch/core:latest
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          registry: docker.pkg.github.com
-      - name: Publish to DockerHub
+            --output type=docker \
+            --file Dockerfile -t icnteam/vswitch .
+     - name: Publish to DockerHub
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: icnteam/vswitch:latest 
-          run: docker tag icnteam/vswitch:latest icn-team/vswitch/core:latest
+          run: docker tag icnteam/vswitch:amd64 icnteam/vswitch
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
