@@ -31,7 +31,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   ########################################################################################      \
   && git clone https://github.com/sysrepo/sysrepo.git                                           \
   && mkdir -p sysrepo/build                                                                     \
-  && sed -i 's/\/etc\/sysrepo/\/hicn-root/' sysrepo/CMakeLists.txt                              \
+#  && sed -i 's/\/etc\/sysrepo/\/hicn-root/' sysrepo/CMakeLists.txt                             \
   && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root ..  \
   && make -j 4 install && popd                                                                  \
   ############################################################                                  \
@@ -48,11 +48,15 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   && pushd Netopeer2/server/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root .. \
   && make -j 4 install && popd                                                              
 # Hicn sysrepo plugin
-RUN git clone https://github.com/FDio/hicn.git                                                 \
-  && sed -i 's/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 20/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 260/g' hicn/hicn-plugin/src/params.h\
-  && sed -i 's/${HICNPLUGIN_INCLUDE_DIRS}/${HICNPLUGIN_INCLUDE_DIRS} ${SYSREPO_INCLUDE_DIRS}/' /hicn-build/hicn/ctrl/sysrepo-plugins/hicn-plugin/CMakeLists.txt \
-  && mkdir -p hicn/ctrl/sysrepo-plugins/hicn-plugin/build && pushd hicn/ctrl/sysrepo-plugins/hicn-plugin/build  \
-  && cmake .. -DSR_PLUGINS_DIR=/hicn-root/lib/sysrepo/plugins/ -DSYSREPO_INCLUDE_MAIN_DIR=/hicn-root/include -DSYSREPO_INCLUDE_DIR=/hicn-root/include -DSYSREPO_LIBRARY=/hicn-root/lib && make -j4 install && popd
+#RUN git clone https://github.com/FDio/hicn.git                                                 \
+#  && sed -i 's/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 20/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 260/g' hicn/hicn-plugin/src/params.h\
+#  && sed -i 's/${HICNPLUGIN_INCLUDE_DIRS}/${HICNPLUGIN_INCLUDE_DIRS} ${SYSREPO_INCLUDE_DIRS}/' /hicn-build/hicn/ctrl/sysrepo-plugins/hicn-plugin/CMakeLists.txt \
+#  && mkdir -p hicn/ctrl/sysrepo-plugins/hicn-plugin/build && pushd hicn/ctrl/sysrepo-plugins/hicn-plugin/build  \
+#  && cmake .. -DSR_PLUGINS_DIR=/hicn-root/lib/sysrepo/plugins/ -DSYSREPO_INCLUDE_MAIN_DIR=/hicn-root/include -DSYSREPO_INCLUDE_DIR=/hicn-root/include -DSYSREPO_LIBRARY=/hicn-root/lib && make -j4 install && popd
+
+
+RUN cp  -r /hicn-root/bin/* /bin && cp -r /hicn-root/lib/* /lib
+
 
 # Install hicn module in sysrepo
 ENV YANG_MODEL_INSTALL_SCRIPT=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_fetch.sh
@@ -62,13 +66,22 @@ RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="
 FROM ubuntu:18.04
 
 COPY --from=intermediate /hicn-root /hicn-root
-COPY --from=intermediate /hicn-build/sysrepo/  /hicn-build/sysrepo/
-COPY --from=intermediate /hicn-build/hicn  /hicn-build/hicn
+COPY --from=intermediate /hicn-build/Netopeer2  /hicn-build/Netopeer2
 
+ENV LD_LIBRARY_PATH=/hicn-root/lib
+ENV PATH=/hicn-root/bin:${PATH}
+# Install sysrepo dependencies
 RUN apt-get update && apt-get install -y curl libprotobuf-c-dev libev-dev libavl-dev libssh-dev
+# Install Install hicn suite 
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-RUN apt-get update && apt-get install -y supervisor vpp libvppinfra vpp-plugin-core vpp-dev libhicn-dev
+RUN apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev supervisor libhicn-dev
+# Rebuild netopeer2-server avoid yang models problem
+RUN apt-get install -y cmake build-essential libcurl4-openssl-dev --no-install-recommends \
+    && cd /hicn-build/Netopeer2/server/build && make -j4 && make install
+# cleanup
+RUN apt-get remove -y build-essential libcurl4-openssl-dev curl && apt autoremove -y && rm -r /hicn-build
 
+# Run bundle!
 WORKDIR /
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
