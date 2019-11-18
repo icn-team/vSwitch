@@ -17,7 +17,7 @@ jobs:
             --platform linux/arm64 \
             --output type=docker \
             --file Dockerfile -t icnteam/vswitch .
-     - name: Publish to DockerHub
+      - name: Publish to DockerHub
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
           name: icnteam/vswitch
