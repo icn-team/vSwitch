@@ -14,7 +14,7 @@ jobs:
       - name: Run Buildx
         run: |
           docker buildx build \
-            --platforms linux/arm64 \
+            --platform linux/arm64 \
             --output "type=image,push=false" \
             --file Dockerfile -t icn-team/vswitch/core:latest .
       - name: Publish to Registry
