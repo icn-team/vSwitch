@@ -58,7 +58,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
 FROM ubuntu:18.04
 
 COPY --from=intermediate /usr/local /usr/local
-RUN apt-get update && apt-get install -y curl libprotobuf-c libev libavl libssh
+RUN apt-get update && apt-get install -y curl libprotobuf-c1 libev4 libavl1 libssh
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
 RUN apt-get update && apt-get install -y supervisor hicn-plugin
 
