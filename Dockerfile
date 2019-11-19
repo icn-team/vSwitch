@@ -60,7 +60,7 @@ FROM ubuntu:18.04
 COPY --from=intermediate /usr/local /usr/local
 RUN apt-get update && apt-get install -y curl libprotobuf-c1 libev4 libavl1 libssh-4
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-RUN apt-get update && apt-get install -y supervisor hicn-plugin
+RUN apt-get update && apt-get install -y supervisor hicn-plugin vpp-plugin-dpdk
 
 WORKDIR /
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
