@@ -1,5 +1,8 @@
 name: Docker Image CI arm64
-on: [push]
+on:
+  schedule:
+    - cron:  '30 1 * * *'  
+  push:
 jobs:
   buildx:
     runs-on: ubuntu-latest
