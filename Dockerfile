@@ -4,17 +4,13 @@ FROM ubuntu:18.04 as intermediate
 
 WORKDIR /hicn-build
 
-
-RUN mkdir /hicn-root
-
-# Use bash shell
 SHELL ["/bin/bash", "-c"]
-
 
 # Install vpp
 RUN apt-get update && apt-get install -y curl
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-RUN apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev vpp libvppinfra vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply libhicn-dev
+RUN apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev vpp libvppinfra libhicn-dev  \
+    vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply
 
 # Install main packages
 RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
@@ -23,40 +19,37 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig \
   ###############################################                                               \
   # Build libyang                                                                               \
   ################################################                                              \
-  && git clone https://github.com/CESNET/libyang                                                \
+  && git clone https://github.com/CESNET/libyang --branch devel --depth 1                       \
   && mkdir -p libyang/build                                                                     \
-  && pushd libyang/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root .. && make -j 4 install && popd   \
+  && pushd libyang/build && cmake -DCMAKE_BUILD_TYPE=Release ..                                 \
+  && make -j 4 install && popd                                                                  \
   ########################################################################################      \
   # Build sysrepo                                                                               \
   ########################################################################################      \
-  && git clone https://github.com/sysrepo/sysrepo.git                                           \
+  && git clone https://github.com/sysrepo/sysrepo.git --branch devel --depth 1                  \
   && mkdir -p sysrepo/build                                                                     \
-#  && sed -i 's/\/etc\/sysrepo/\/hicn-root/' sysrepo/CMakeLists.txt                             \
-  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root ..  \
-  && make -j 4 install && popd                                                                  \
-  ############################################################                                  \
+  && pushd sysrepo/build && cmake -DCMAKE_BUILD_TYPE=Release  ..                                \
+  && make -j 4 install && ldconfig && popd                                                      \
+ ############################################################                                   \
   # Build libnetconf2                                                                           \
   ############################################################                                  \
-  && git clone https://github.com/CESNET/libnetconf2                                            \
+  && git clone https://github.com/CESNET/libnetconf2 --branch devel --depth 1                   \
   && mkdir -p libnetconf2/build                                                                 \
-  && pushd libnetconf2/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root .. && make -j4 install && popd\
+  && pushd libnetconf2/build && cmake -DCMAKE_BUILD_TYPE=Release ..                             \ 
+  && make -j4 install && popd                                                                   \
   ############################################################                                  \
   # Build Netopeer                                                                              \
   ############################################################                                  \
-  && git clone https://github.com/CESNET/Netopeer2                                              \
+  && git clone https://github.com/CESNET/Netopeer2 --branch devel-server --depth 1              \
   && mkdir -p Netopeer2/server/build                                                            \
-  && pushd Netopeer2/server/build && cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/hicn-root -DREPOSITORY_LOC=/hicn-root .. \
-  && make -j 4 install && popd                                                              
-# Hicn sysrepo plugin
-#RUN git clone https://github.com/FDio/hicn.git                                                 \
-#  && sed -i 's/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 20/#define HICN_PARAM_PIT_ENTRY_PHOPS_MAX 260/g' hicn/hicn-plugin/src/params.h\
-#  && sed -i 's/${HICNPLUGIN_INCLUDE_DIRS}/${HICNPLUGIN_INCLUDE_DIRS} ${SYSREPO_INCLUDE_DIRS}/' /hicn-build/hicn/ctrl/sysrepo-plugins/hicn-plugin/CMakeLists.txt \
-#  && mkdir -p hicn/ctrl/sysrepo-plugins/hicn-plugin/build && pushd hicn/ctrl/sysrepo-plugins/hicn-plugin/build  \
-#  && cmake .. -DSR_PLUGINS_DIR=/hicn-root/lib/sysrepo/plugins/ -DSYSREPO_INCLUDE_MAIN_DIR=/hicn-root/include -DSYSREPO_INCLUDE_DIR=/hicn-root/include -DSYSREPO_LIBRARY=/hicn-root/lib && make -j4 install && popd
-
-
-RUN cp  -r /hicn-root/bin/* /bin && cp -r /hicn-root/lib/* /lib
-
+  && pushd Netopeer2/server/build && cmake -DCMAKE_BUILD_TYPE=Release ..                        \
+  && make -j 4 install && popd                                                                   
+ 
+# RUN git clone https://git.fd.io/hicn                                                           \
+#  && cd hicn && git config user.name "test" && git config user.email "a@b.com"     \
+#  && git pull "https://gerrit.fd.io/r/hicn" refs/changes/38/23638/12                            \
+#  && mkdir -p ctrl/sysrepo-plugins/build && pushd ctrl/sysrepo-plugins/build                    \
+#  && cmake .. && make -j4 && popd
 
 # Install hicn module in sysrepo
 ENV YANG_MODEL_INSTALL_SCRIPT=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_fetch.sh
@@ -65,25 +58,13 @@ RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="
 
 FROM ubuntu:18.04
 
-COPY --from=intermediate /hicn-root /hicn-root
-COPY --from=intermediate /hicn-build/Netopeer2  /hicn-build/Netopeer2
-
-ENV LD_LIBRARY_PATH=/hicn-root/lib
-ENV PATH=/hicn-root/bin:${PATH}
-# Install sysrepo dependencies
-RUN apt-get update && apt-get install -y curl libprotobuf-c-dev libev-dev libavl-dev libssh-dev
-# Install Install hicn suite 
+COPY --from=intermediate /usr/local /usr/local
+COPY --from=intermediate /etc/sysrepo /etc/sysrepo
+RUN apt-get update && apt-get install -y curl libprotobuf-c1 libev4 libavl1 libssh-4
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-RUN apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev supervisor libhicn-dev
-# Rebuild netopeer2-server avoid yang models problem
-RUN apt-get install -y cmake build-essential libcurl4-openssl-dev --no-install-recommends \
-    && cd /hicn-build/Netopeer2/server/build && make -j4 && make install
-# cleanup
-RUN apt-get remove -y build-essential libcurl4-openssl-dev curl && apt autoremove -y && rm -r /hicn-build
+RUN apt-get update && apt-get install -y supervisor hicn-plugin vpp-plugin-dpdk
+RUN mkdir -p /usr/local/lib/sysrepo/plugins && ldconfig
 
-# Run bundle!
 WORKDIR /
-
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
