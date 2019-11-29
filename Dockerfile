@@ -1,3 +1,4 @@
+
 FROM ubuntu:18.04 as intermediate
 
 # Build sysrepo suite
