@@ -56,7 +56,7 @@ ENV YANG_MODEL_INSTALL_SCRIPT=https://raw.githubusercontent.com/icn-team/vSwitch
 ENV YANG_MODEL_LIST=https://raw.githubusercontent.com/icn-team/vSwitch/master/yang_list.txt
 RUN curl -OL ${YANG_MODEL_LIST} && curl -s ${YANG_MODEL_INSTALL_SCRIPT} | TERM="xterm" bash -x  
 
-#FROM ubuntu:18.04
+FROM ubuntu:18.04
 
 COPY --from=intermediate /usr/local /usr/local
 COPY --from=intermediate /etc/sysrepo /etc/sysrepo
