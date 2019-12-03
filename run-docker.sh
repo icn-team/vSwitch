@@ -19,6 +19,7 @@ elif [[ "${1}" = "push" ]]; then
 elif [[ "${1}" = "rm" ]]; then
    run::as-root docker rm --force ${DOCKER_NAME}
 elif [[ "${1}" = "run" ]]; then
+   echo ${PARAMS}
    run::as-root docker run ${PARAMS} --name ${DOCKER_NAME} ${IMG_NAME}
 else
    echo "Please enter right argument [build, push, rm, run]"
