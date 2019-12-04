@@ -11,7 +11,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get install -y curl
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
 RUN apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev vpp libvppinfra libhicn-dev\
-    vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply
+    vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply python3-dev
 
 # Install main packages
 RUN apt-get install -y git cmake build-essential libpcre3-dev swig                              \
@@ -23,7 +23,7 @@ RUN apt-get install -y git cmake build-essential libpcre3-dev swig              
   ##############################################                                                \
   && git clone https://github.com/CESNET/libyang --branch devel --depth 1                       \
   && mkdir -p libyang/build                                                                     \
-  && pushd libyang/build && cmake -DCMAKE_BUILD_TYPE=Release ..                                 \
+  && pushd libyang/build && cmake -DCMAKE_BUILD_TYPE=Release  -DGEN_LANGUAGE_BINDINGS=ON ..     \
   && make -j 4 install && popd                                                                  \
   ##############################################                                                \
   # Build sysrepo                                                                               \
