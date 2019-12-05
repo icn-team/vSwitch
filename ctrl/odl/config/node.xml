@@ -1,0 +1,10 @@
+<ns0:node xmlns:ns0="urn:TBD:params:xml:ns:yang:network-topology" xmlns:ns1="urn:opendaylight:netconf-node-topology">
+   <ns0:node-id>host-pubc</ns0:node-id>
+   <ns1:host>10.100.95.118</ns1:host>
+   <ns1:port>830</ns1:port>
+   <ns1:username>root</ns1:username>
+   <ns1:password>1</ns1:password>
+   <ns1:tcp-only>false</ns1:tcp-only>
+   <ns1:keepalive-delay>1</ns1:keepalive-delay>
+   <ns1:schema-cache-directory>host-pubc</ns1:schema-cache-directory>
+</ns0:node>

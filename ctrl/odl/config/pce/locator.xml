@@ -1,0 +1,20 @@
+<locator>
+<producer>
+
+<n1>
+	<p1>a001::/16</p1>
+</n1>
+
+
+<n5>
+	<p1>b001::/16</p1>
+</n5>
+
+<n6>
+	<p1>c001::/16</p1>
+	<p2>d001::/16</p2>
+</n6>
+
+</producer>
+</locator>
+<!--the numbers inside are faceid-->

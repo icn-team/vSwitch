@@ -1,0 +1,13 @@
+<ns0:input xmlns:ns0="urn:sysrepo:hicn">
+    <ns0:ip4>-1</ns0:ip4>
+    <ns0:ip6>c001::</ns0:ip6>
+    <ns0:len>16</ns0:len>
+    <ns0:face_ids0>1</ns0:face_ids0>
+    <ns0:face_ids1>0</ns0:face_ids1>
+    <ns0:face_ids2>0</ns0:face_ids2>
+    <ns0:face_ids3>0</ns0:face_ids3>
+    <ns0:face_ids4>0</ns0:face_ids4>
+    <ns0:face_ids5>0</ns0:face_ids5>
+    <ns0:face_ids6>0</ns0:face_ids6>
+    <ns0:n_faces>1</ns0:n_faces>
+</ns0:input>
