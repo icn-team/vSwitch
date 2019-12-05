@@ -14,26 +14,25 @@ apt-get install -y git cmake build-essential libpcre3-dev swig \
   git clone https://github.com/CESNET/libyang --branch devel --depth 1
   mkdir -p libyang/build
   cd libyang/build && cmake -DCMAKE_BUILD_TYPE=Release ..
-  make -j 4 install
+  make -j 4 install && cd /home/vagrant 
   ########################################################################################
   # Build sysrepo
   ########################################################################################
   git clone https://github.com/sysrepo/sysrepo.git --branch devel --depth 1
   mkdir -p sysrepo/build
   cd sysrepo/build && cmake -DCMAKE_BUILD_TYPE:String="Release" ..
-  make -j 4 install && ldconfig 
+  make -j 4 install && ldconfig && cd /home/vagrant
  ############################################################
   # Build libnetconf2
   ############################################################
   git clone https://github.com/CESNET/libnetconf2 --branch devel --depth 1
   mkdir -p libnetconf2/build
   cd libnetconf2/build && cmake -DCMAKE_BUILD_TYPE=Release ..
-  make -j4 install 
+  make -j4 install && cd /home/vagrant
   ############################################################
   # Build Netopeer
   ############################################################
   git clone https://github.com/CESNET/Netopeer2 --branch devel-server --depth 1
   mkdir -p Netopeer2/server/build
   cd Netopeer2/server/build && cmake -DCMAKE_BUILD_TYPE=Release ..
-  make -j 4 install 
-
+  make -j 4 install && cd /home/vagrant

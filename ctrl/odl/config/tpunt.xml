@@ -1,0 +1,6 @@
+<input xmlns="urn:sysrepo:hicn">
+    <ip4>-1</ip4>
+    <ip6>-1</ip6>
+    <len>24</len>
+    <swif>0</swif>
+</input>

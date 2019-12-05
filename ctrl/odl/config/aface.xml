@@ -1,0 +1,7 @@
+<ns0:input xmlns:ns0="urn:sysrepo:hicn">
+    <ns0:lip4>-1</ns0:lip4>
+    <ns0:lip6>9001::2</ns0:lip6>
+    <ns0:rip4>-1</ns0:rip4>
+    <ns0:rip6>9001::1</ns0:rip6>
+    <ns0:swif>1</ns0:swif>
+</ns0:input>

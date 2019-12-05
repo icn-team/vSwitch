@@ -1,0 +1,6 @@
+<ns0:input xmlns:ns0="urn:sysrepo:hicn">
+    <ns0:ip4>-1</ns0:ip4>
+    <ns0:ip6>c001::</ns0:ip6>
+    <ns0:len>16</ns0:len>
+    <ns0:swif>1</ns0:swif>
+</ns0:input>
