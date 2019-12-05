@@ -1,0 +1,130 @@
+<routes>
+        <host-eth>
+                <prefix>b001::</prefix>
+                <len>16</len>
+                <faceid>0</faceid>
+        </host-eth>
+
+        <host-eth>
+                <prefix>d001::</prefix>
+                <len>16</len>
+                <faceid>0</faceid>
+        </host-eth>
+
+        <host-wifi>
+                <prefix>b001::</prefix>
+                <len>16</len>
+                <faceid>0</faceid>
+        </host-wifi>
+
+        <host-wifi>
+                <prefix>d001::</prefix>
+                <len>16</len>
+                <faceid>0</faceid>
+        </host-wifi>
+
+        <host-wifi>
+                <prefix>d002::cccc:cccc:0:1</prefix>
+                <len>128</len>
+                <faceid>0</faceid>
+        </host-wifi>
+
+        <host-wifi>
+                <prefix>d002::aaaa:cccc:0:1</prefix>
+                <len>128</len>
+                <faceid>0</faceid>
+        </host-wifi>
+
+        <host-wifi>
+                <prefix>d002::ffff:cccc:1:1</prefix>
+                <len>128</len>
+                <faceid>0</faceid>
+        </host-wifi>
+
+        <host-wifi>
+                <prefix>d002::ffff:cccc:2:1</prefix>
+                <len>128</len>
+                <faceid>0</faceid>
+        </host-wifi>
+
+        <host-isp>
+                <prefix>c001::</prefix>
+                <len>16</len>
+                <faceid>0</faceid>
+        </host-isp>
+
+        <host-en>
+                <prefix>d001::</prefix>
+                <len>16</len>
+                <faceid>3</faceid>
+        </host-en>
+        <host-en>
+                <prefix>b001::</prefix>
+                <len>16</len>
+                <faceid>4</faceid>
+	</host-en>
+
+
+        <host-en>
+                <prefix>d002::cccc:cccc:0:1</prefix>
+                <len>128</len>
+                <faceid>2</faceid>
+        </host-en>
+
+        <host-en>
+                <prefix>d002::aaaa:cccc:0:1</prefix>
+                <len>128</len>
+                <faceid>2</faceid>
+        </host-en>
+
+        <host-en>
+                <prefix>d002::ffff:cccc:1:1</prefix>
+                <len>128</len>
+                <faceid>2</faceid>
+        </host-en>
+
+        <host-en>
+                <prefix>d002::ffff:cccc:2:1</prefix>
+                <len>128</len>
+                <faceid>2</faceid>
+        </host-en>
+
+
+        <host-en>
+                <prefix>b001::</prefix>
+                <len>16</len>
+                <faceid>3</faceid>
+	</host-en>
+
+
+        <host-int>
+                <prefix>c001::</prefix>
+                <len>16</len>
+                <faceid>1</faceid>
+        </host-int>
+
+        <host-enc>
+                <prefix>d002::cccc:cccc:0:1</prefix>
+                <len>128</len>
+                <faceid>0</faceid>
+        </host-enc>
+
+        <host-enc>
+                <prefix>d002::aaaa:cccc:0:1</prefix>
+                <len>128</len>
+                <faceid>0</faceid>
+        </host-enc>
+
+        <host-enc>
+                <prefix>d002::ffff:cccc:1:1</prefix>
+                <len>128</len>
+                <faceid>0</faceid>
+        </host-enc>
+
+        <host-enc>
+                <prefix>d002::ffff:cccc:2:1</prefix>
+                <len>128</len>
+                <faceid>0</faceid>
+        </host-enc>
+
+</routes>

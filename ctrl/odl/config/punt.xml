@@ -1,0 +1,275 @@
+<puntes>
+        <host-eth>
+                <ip6>b001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-eth>
+        <host-eth>
+                <ip6>d001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-eth>
+
+        <host-eth>
+                <ip6>d002::cccc:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-eth>
+
+        <host-eth>
+                <ip6>d002::aaaa:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-eth>
+
+        <host-eth>
+                <ip6>d002::ffff:cccc:1:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-eth>
+
+        <host-eth>
+                <ip6>d002::ffff:cccc:2:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-eth>
+
+        <host-wifi>
+                <ip6>b001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-wifi>
+        <host-wifi>
+                <ip6>d001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-wifi>
+        <host-wifi>
+                <ip6>d002::cccc:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-wifi>
+        <host-wifi>
+                <ip6>d002::aaaa:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-wifi>
+        <host-wifi>
+                <ip6>d002::ffff:cccc:1:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-wifi>
+        <host-wifi>
+                <ip6>d002::ffff:cccc:2:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-wifi>
+
+
+        <host-isp>
+		<ip6>c001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-isp>
+
+
+        <host-en>
+                <ip6>b001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-en>
+        <host-en>
+                <ip6>b001::</ip6>
+                <len>16</len>
+                <swif>2</swif>
+        </host-en>
+        <host-en>
+                <ip6>b001::</ip6>
+                <len>16</len>
+                <swif>3</swif>
+        </host-en>
+        <host-en>
+                <ip6>b001::</ip6>
+                <len>16</len>
+                <swif>4</swif>
+        </host-en>
+        <host-en>
+                <ip6>d001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-en>
+        <host-en>
+                <ip6>d001::</ip6>
+                <len>16</len>
+                <swif>2</swif>
+        </host-en>
+        <host-en>
+                <ip6>d001::</ip6>
+                <len>16</len>
+                <swif>3</swif>
+        </host-en>
+        <host-en>
+                <ip6>d001::</ip6>
+                <len>16</len>
+                <swif>4</swif>
+        </host-en>
+
+
+
+        <host-en>
+                <ip6>d002::cccc:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>2</swif>
+        </host-en>
+        <host-en>
+                <ip6>d002::aaaa:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>2</swif>
+        </host-en>
+        <host-en>
+                <ip6>d002::ffff:cccc:1:1</ip6>
+                <len>128</len>
+                <swif>2</swif>
+        </host-en>
+        <host-en>
+                <ip6>d002::ffff:cccc:2:1</ip6>
+                <len>128</len>
+                <swif>2</swif>
+        </host-en>
+        <host-en>
+                <ip6>d002::cccc:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-en>
+
+        <host-en>
+                <ip6>d002::aaaa:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-en>
+
+        <host-en>
+                <ip6>d002::ffff:cccc:1:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-en>
+
+        <host-en>
+                <ip6>d002::ffff:cccc:2:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-en>
+        <host-en>
+                <ip6>d002::cccc:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>3</swif>
+        </host-en>
+
+        <host-en>
+                <ip6>d002::aaaa:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>3</swif>
+        </host-en>
+
+        <host-en>
+                <ip6>d002::ffff:cccc:1:1</ip6>
+                <len>128</len>
+                <swif>3</swif>
+        </host-en>
+
+        <host-en>
+                <ip6>d002::ffff:cccc:2:1</ip6>
+                <len>128</len>
+                <swif>3</swif>
+        </host-en>
+
+
+	<host-int>
+                <ip6>c001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-int>
+        <host-int>
+                <ip6>c001::</ip6>
+                <len>16</len>
+                <swif>2</swif>
+        </host-int>
+        <host-int>
+                <ip6>c001::</ip6>
+                <len>16</len>
+                <swif>3</swif>
+        </host-int>
+
+
+        <host-enc>
+                <ip6>b001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-enc>
+        <host-enc>
+                <ip6>d001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+	</host-enc>
+
+
+        <host-enc>
+                <ip6>d002::cccc:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-enc>
+
+        <host-enc>
+                <ip6>d002::aaaa:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-enc>
+
+        <host-enc>
+                <ip6>d002::ffff:cccc:1:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-enc>
+
+        <host-enc>
+                <ip6>d002::ffff:cccc:2:1</ip6>
+                <len>128</len>
+                <swif>1</swif>
+        </host-enc>
+
+        <host-enc>
+                <ip6>d002::cccc:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>2</swif>
+        </host-enc>
+
+        <host-enc>
+                <ip6>d002::aaaa:cccc:0:1</ip6>
+                <len>128</len>
+                <swif>2</swif>
+        </host-enc>
+
+        <host-enc>
+                <ip6>d002::ffff:cccc:1:1</ip6>
+                <len>128</len>
+                <swif>2</swif>
+        </host-enc>
+
+        <host-enc>
+                <ip6>d002::ffff:cccc:2:1</ip6>
+                <len>128</len>
+                <swif>2</swif>
+        </host-enc>
+
+        <host-privc>
+                <ip6>b001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-privc>
+
+        <host-pubc>
+                <ip6>c001::</ip6>
+                <len>16</len>
+                <swif>1</swif>
+        </host-pubc>
+</puntes>

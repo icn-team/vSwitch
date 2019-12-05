@@ -1,0 +1,8 @@
+<input xmlns="urn:sysrepo:hicn">
+    <lip4>-1</lip4>
+    <lip6>-1</lip6>
+    <rip4>-1</rip4>
+    <rip6>-1</rip6>
+    <swif>0</swif>
+</input>
+
