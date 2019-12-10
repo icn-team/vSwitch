@@ -11,12 +11,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#!/bin/bash
 
-apt-get update && apt-get install -y \
-    git cmake build-essential bison flex \
-    libpcre3-dev libev-dev libavl-dev \
-    libprotobuf-c-dev protobuf-c-compiler libssh-dev
+#!/bin/bash
+# Install vpp
+apt-get update && apt-get install -y curl
+curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
+apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev vpp libvppinfra \
+    vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply
+
+# Install main packages
+apt-get install -y git cmake build-essential libpcre3-dev swig \
+  libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
+  libssh-dev libcurl4-openssl-dev libasio-dev libconfig-dev --no-install-recommends openssh-server
 
 git clone https://github.com/CESNET/libyang.git -b devel --depth 1
 cp Packaging.cmake PackagingLibYang.cmake libyang/CMakeModules/
