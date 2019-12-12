@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1.0.0
       - name: build deb
-        run:  cd extras; sudo sh build.sh
+        run:  cd extras; sh build.sh
