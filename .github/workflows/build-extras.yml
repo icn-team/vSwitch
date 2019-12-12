@@ -6,7 +6,7 @@ jobs:
     container: ${{ matrix.container }}
     strategy:
       matrix:
-        container: [ 'ubuntu:18.04', 'arm64v8/ubuntu:18.04' ]
+        container: [ 'ubuntu:18.04' ]
     name: Build on amd64 
     steps:
       - uses: actions/checkout@v1.0.0
