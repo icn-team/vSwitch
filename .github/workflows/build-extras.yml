@@ -1,0 +1,9 @@
+on: [push]
+jobs:
+  amd64_job:
+    runs-on: ubuntu-18.04
+    name: Build on amd64 
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - name: build deb
+        run  cd extras; sh build.sh

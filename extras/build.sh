@@ -14,6 +14,7 @@
 
 #!/bin/bash
 # Install vpp
+mkdir -p deb
 apt-get update && apt-get install -y curl
 curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
 apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev vpp libvppinfra \
