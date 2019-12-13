@@ -16,7 +16,7 @@
 # Install vpp
 
 mkdir -p packages
-if [ "$1" == "ubuntu:18.04" ]; then
+if [ "$1" != " " ]; then
     apt-get udpate
     apt-get install -y git cmake build-essential libpcre3-dev swig \
                        libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler \
