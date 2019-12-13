@@ -16,13 +16,13 @@
 # Install vpp
 
 mkdir -p packages
-if [ "$1" != " " ]; then
-    apt-get udpate
+if [ "$1" == "ubuntu:18.04" ]; then
+    apt-get udpate;
     apt-get install -y git cmake build-essential libpcre3-dev swig \
                        libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler \
                        libssl-dev libcurl4-openssl-dev libconfig-dev
 else
-    yum update
+    yum update;
     yum install -y epel-release;
     yum install -y git cmake make rpm-build gcc gcc-c++ devtoolset-7 pcre-devel libssl openssl
 fi  
