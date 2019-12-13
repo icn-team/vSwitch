@@ -25,6 +25,8 @@ else
     yum update
     yum install -y epel-release;
     yum install -y git cmake make rpm-build devtoolset-7 pcre-devel libssl
+    CXX_COMPILER="/opt/rh/devtoolset-7/root/usr/bin/c++"
+    CC_COMPILER="/opt/rh/devtoolset-7/root/usr/bin/cc"
 fi  
 
 git clone https://github.com/CESNET/libyang.git -b devel --depth 1
