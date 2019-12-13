@@ -16,7 +16,7 @@
 # Install vpp
 
 mkdir -p packages
-if [  -n "$(uname -a | grep Ubuntu)" ]; then
+if [  -n "$(lsb_release -si | grep Ubuntu)" ]; then
     apt-get udpate
     apt-get install -y git cmake build-essential libpcre3-dev swig \
                        libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler \

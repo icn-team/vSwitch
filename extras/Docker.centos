@@ -1,8 +1,0 @@
-FROM centos:7
-
-WORKDIR /hicn-build
-SHELL ["/bin/bash", "-c"]
-
-RUN yum install -y epel-release; yum clean all
-RUN yum install -y cmake gcc-c++ boost-devel expat-devel zlib-devel bzip2-devel \
-                   postgresql-devel geos-devel proj-devel proj-epsg lua-devel; yum clean all
