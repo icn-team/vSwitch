@@ -20,13 +20,11 @@ if [  -n "$(lsb_release -si | grep Ubuntu)" ]; then
     apt-get update
     apt-get install -y git cmake build-essential libpcre3-dev swig \
                        libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler \
-                       libssl-dev libssh-dev libcurl4-openssl-dev libasio-dev \
-                       libconfig-dev openssh-server
+                       libssl-dev libcurl4-openssl-dev libconfig-dev
 else
     yum update
     yum install -y epel-release;
-    yum install -y cmake gcc-c++ boost-devel expat-devel zlib-devel bzip2-devel \
-                   postgresql-devel geos-devel proj-devel proj-epsg lua-devel; yum clean all
+    yum install -y git cmake devtoolset-7 pcre-devel libssl
 fi  
 
 git clone https://github.com/CESNET/libyang.git -b devel --depth 1
