@@ -17,7 +17,7 @@
 
 mkdir -p packages
 if [  -n "$(uname -a | grep Ubuntu)" ]; then
-    apt-get udpate
+    apt-get update
     apt-get install -y git cmake build-essential libpcre3-dev swig \
                        libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler \
                        libssl-dev libssh-dev libcurl4-openssl-dev libasio-dev \
