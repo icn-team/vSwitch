@@ -24,7 +24,7 @@ if [  -n "$(lsb_release -si | grep Ubuntu)" ]; then
 else
     yum update
     yum install -y epel-release;
-    yum install -y git cmake make rpm-build devtoolset-7 pcre-devel libssl
+    yum install -y git cmake make rpm-build gcc gcc-c++ devtoolset-7 pcre-devel libssl
     CXX_COMPILER="/opt/rh/devtoolset-7/root/usr/bin/c++"
     CC_COMPILER="/opt/rh/devtoolset-7/root/usr/bin/cc"
     ${CXX_COMPILER} --version
