@@ -14,16 +14,21 @@
 
 #!/bin/bash
 # Install vpp
-mkdir -p deb
-apt-get update && apt-get install -y curl
-curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev vpp libvppinfra \
-    vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply
 
-# Install main packages
-apt-get install -y git cmake build-essential libpcre3-dev swig \
-  libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler libssl-dev \
-  libssh-dev libcurl4-openssl-dev libasio-dev libconfig-dev --no-install-recommends openssh-server
+mkdir -p packages
+if [  -n "$(uname -a | grep Ubuntu)" ]; then
+    sh init-ubuntu.sh
+    apt-get udpate
+    apt-get install -y git cmake build-essential libpcre3-dev swig \
+                       libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler \
+                       libssl-dev libssh-dev libcurl4-openssl-dev libasio-dev \
+                       libconfig-dev openssh-server
+else
+    yum update
+    yum install -y epel-release;
+    yum install -y cmake gcc-c++ boost-devel expat-devel zlib-devel bzip2-devel \
+                   postgresql-devel geos-devel proj-devel proj-epsg lua-devel; yum clean all
+fi  
 
 git clone https://github.com/CESNET/libyang.git -b devel --depth 1
 cp Packaging.cmake PackagingLibYang.cmake libyang/CMakeModules/
@@ -33,7 +38,7 @@ cd build
 cmake -DCMAKE_BUILD_TYPE:String="Release" \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
 make package
-mv *.deb ../../deb
+mv *.deb *.rpm ../../packages 
 make install 
 cd ../..
 
@@ -47,7 +52,7 @@ cmake -D CMAKE_BUILD_TYPE:String="Release" \
       -DBUILD_EXAMPLES:BOOL=FALSE \
       -DGEN_LANGUAGE_BINDINGS=OFF ..
 make package
-mv *.deb ../../deb
+mv *.deb *.rpm ../../packages 
 make install
 cd ../..
 
@@ -59,7 +64,7 @@ cd build
 cmake -D CMAKE_BUILD_TYPE:String="Release" \
       -DCMAKE_INSTALL_PREFIX:PATH=/usr -DENABLE_BUILD_TESTS=OFF .. 
 make package
-mv *.deb ../../deb
+mv *.deb *.rpm ../../packages
 make install
 cd ../../
 
@@ -71,11 +76,11 @@ cd build-server
 cmake -DCMAKE_BUILD_TYPE:String="Release" -DCMAKE_INSTALL_PREFIX:PATH=/usr \
       -DENABLE_BUILD_TESTS=OFF ../server
 make package
-mv *.deb ../../deb
+mv *.deb *.rpm ../../packages
 cd ..
 mkdir -p build-cli
 cd build-cli      
 cmake -DCMAKE_BUILD_TYPE:String="Release" -DCMAKE_INSTALL_PREFIX:PATH=/usr ../cli
 make package
-mv *.deb ../../deb
+mv *.deb *.rpm ../../packages
 cd ../../
