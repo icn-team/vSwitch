@@ -1,12 +1,11 @@
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install -y curl libprotobuf-c1 libev4 libavl1 libssh-4
-
+RUN apt-get update && apt-get install -y curl
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
-RUN apt-get update && apt-get install -y supervisor hicn-plugin vpp-plugin-dpdk
+RUN apt-get update && apt-get install -y supervisor hicn-plugin vpp-plugin-dpdk hicn-sysrepo-plugin
 
 RUN echo "deb [trusted=yes] https://dl.bintray.com/icn-team/apt-hicn-extras bionic main" | tee -a /etc/apt/sources.list
-RUN apt-get update && apt-get install -y libyang sysrepo libnetconf2 netopeer2-server
+RUN apt-get update && apt-get install -y libnetconf2 netopeer2-server
 
 WORKDIR /
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf

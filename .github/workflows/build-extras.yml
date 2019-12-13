@@ -1,4 +1,4 @@
-name: Build extras for ubuntu amd64
+name: Build extras for ubuntu amd64 and arm64
 on: [push]
 jobs:
   amd64_job:
@@ -6,8 +6,8 @@ jobs:
     container: ${{ matrix.container }}
     strategy:
       matrix:
-        container: [ 'ubuntu:18.04' ]
-    name: Build on amd64 
+        container: [ 'ubuntu:18.04' , 'arm64v8/ubuntu:18.04']
+    name: Build on amd64 and arm64 
     steps:
       - uses: actions/checkout@v1.0.0
       - name: build deb
