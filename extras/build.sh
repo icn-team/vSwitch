@@ -16,14 +16,8 @@
 # Install vpp
 
 mkdir -p packages
-<<<<<<< HEAD
-if [  -n "$(uname -a | grep Ubuntu)" ]; then
-    apt-get update
-    apt-get install -y git cmake build-essential libpcre3-dev swig \
-=======
 if [ "$1" == "ubuntu:18.04" ]; then
     apt-get update && apt-get install -y git cmake build-essential libpcre3-dev swig \
->>>>>>> f20550e88ec481a1983e8249a5742cb780d3ab69
                        libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler \
                        libssl-dev libcurl4-openssl-dev libconfig-dev
 else
@@ -36,8 +30,7 @@ cp Packaging.cmake PackagingLibYang.cmake libyang/CMakeModules/
 cd libyang; git apply ../libyang.diff
 mkdir -p build
 cd build
-cmake -DCMAKE_BUILD_TYPE:String="Release" \
-      -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
+cmake  -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
 make package
 mv *.deb *.rpm ../../packages 
 make install 

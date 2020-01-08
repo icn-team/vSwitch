@@ -1,9 +1,9 @@
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 0f8af14..8994686 100644
+index c61caa3..f79605b 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -213,13 +213,13 @@ add_executable(sysrepo-plugind ${SYSREPOPLUGIND_SRC})
- target_link_libraries(sysrepo-plugind sysrepo dl)
+@@ -216,13 +216,13 @@ include_directories(${PROJECT_BINARY_DIR})
+ include_directories("${PROJECT_SOURCE_DIR}/src")
  
  # installation
 -install(TARGETS sysrepo DESTINATION ${CMAKE_INSTALL_LIBDIR})
@@ -16,18 +16,17 @@ index 0f8af14..8994686 100644
 +        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/sysrepo COMPONENT sysrepo)
 +install(TARGETS sysrepoctl sysrepocfg sysrepo-plugind DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT sysrepo)
  
--install(FILES "${PROJECT_BINARY_DIR}/libsysrepo.pc" DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
-+install(FILES "${PROJECT_BINARY_DIR}/libsysrepo.pc" DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig" COMPONENT sysrepo)
+-install(FILES "${PROJECT_BINARY_DIR}/sysrepo.pc" DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
++install(FILES "${PROJECT_BINARY_DIR}/sysrepo.pc" DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig" COMPONENT sysrepo)
  
  # doxygen documentation
  find_package(Doxygen)
-@@ -270,3 +270,9 @@ add_custom_target(sr_clean
+@@ -278,3 +278,8 @@ add_custom_target(sr_clean
  add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_MODULE_PATH}/uninstall.cmake")
  add_custom_target(uninstall_with_repo "${CMAKE_COMMAND}" -P "${CMAKE_MODULE_PATH}/uninstall.cmake"
      COMMAND rm -rf ${REPOSITORY_LOC})
 +
++
 +include(PackagingSysRepo)
 +include(Packaging)
 +make_packages()
-+
-+
