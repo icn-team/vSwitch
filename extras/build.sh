@@ -16,17 +16,19 @@
 # Install vpp
 
 mkdir -p packages
+<<<<<<< HEAD
 if [  -n "$(uname -a | grep Ubuntu)" ]; then
     apt-get update
     apt-get install -y git cmake build-essential libpcre3-dev swig \
+=======
+if [ "$1" == "ubuntu:18.04" ]; then
+    apt-get update && apt-get install -y git cmake build-essential libpcre3-dev swig \
+>>>>>>> f20550e88ec481a1983e8249a5742cb780d3ab69
                        libprotobuf-c-dev libev-dev libavl-dev protobuf-c-compiler \
-                       libssl-dev libssh-dev libcurl4-openssl-dev libasio-dev \
-                       libconfig-dev openssh-server
+                       libssl-dev libcurl4-openssl-dev libconfig-dev
 else
-    yum update
-    yum install -y epel-release;
-    yum install -y cmake gcc-c++ boost-devel expat-devel zlib-devel bzip2-devel \
-                   postgresql-devel geos-devel proj-devel proj-epsg lua-devel; yum clean all
+    yum update && yum install -y epel-release;
+    yum install -y git cmake make rpm-build gcc gcc-c++ devtoolset-7 pcre-devel libssl openssl
 fi  
 
 git clone https://github.com/CESNET/libyang.git -b devel --depth 1
