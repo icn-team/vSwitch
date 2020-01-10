@@ -1,5 +1,5 @@
 diff --git a/cli/CMakeLists.txt b/cli/CMakeLists.txt
-index 1e99724..7a81513 100644
+index 1e99724..e933c8c 100644
 --- a/cli/CMakeLists.txt
 +++ b/cli/CMakeLists.txt
 @@ -69,7 +69,8 @@ if(HAVE_MKSTEMPS)
@@ -31,7 +31,7 @@ index 1e99724..7a81513 100644
 +include(Packaging)
 +make_packages()
 diff --git a/server/CMakeLists.txt b/server/CMakeLists.txt
-index f7c6567..9bca82d 100755
+index f7c6567..a4130fa 100755
 --- a/server/CMakeLists.txt
 +++ b/server/CMakeLists.txt
 @@ -153,7 +153,8 @@ if(GENERATE_HOSTKEY)
@@ -44,7 +44,7 @@ index f7c6567..9bca82d 100755
  if(INSTALL_MODULES)
      install(CODE "
          message(STATUS \"Installing sysrepo modules...\")
-@@ -172,13 +173,15 @@ endif()
+@@ -172,16 +173,24 @@ endif()
  if(GENERATE_HOSTKEY)
      install(CODE "
          message(STATUS \"Generating a new RSA host key \\\"genkey\\\"...\")
@@ -61,8 +61,18 @@ index f7c6567..9bca82d 100755
 +          ${SYSREPOCFG} ${DEFAULT_HOSTKEY} COMPONENT netopeer2-server)
      ")
  endif()
+-
++file(GLOB modules_yang
++    "${PROJECT_SOURCE_DIR}/../modules/*.yang"
++)
++install(FILES ${PROJECT_SOURCE_DIR}/setup.sh ${PROJECT_SOURCE_DIR}/merge_config.sh 
++              ${PROJECT_SOURCE_DIR}/merge_hostkey.sh DESTINATION 
++              ${CMAKE_INSTALL_BINDIR}  COMPONENT netopeer2-server)
++install(FILES ${modules_yang} DESTINATION ${CMAKE_INSTALL_LIBDIR}/modules_yang COMPONENT netopeer2-server)
+ configure_file("${PROJECT_SOURCE_DIR}/config.h.in" "${PROJECT_BINARY_DIR}/config.h" ESCAPE_QUOTES @ONLY)
+ include_directories(${PROJECT_BINARY_DIR})
  
-@@ -195,3 +198,7 @@ add_custom_target(cleancache
+@@ -195,3 +204,7 @@ add_custom_target(cleancache
  
  # uninstall
  add_custom_target(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_MODULE_PATH}/uninstall.cmake")

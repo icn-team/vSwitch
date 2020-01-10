@@ -25,12 +25,13 @@ else
     yum install -y git cmake make rpm-build gcc gcc-c++ devtoolset-7 pcre-devel libssl openssl
 fi  
 
-git clone https://github.com/CESNET/libyang.git -b devel --depth 1
+git clone https://github.com/CESNET/libyang.git -b devel 
 cp Packaging.cmake PackagingLibYang.cmake libyang/CMakeModules/
 cd libyang; git apply ../libyang.diff
 mkdir -p build
 cd build
-cmake  -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
+cmake -DCMAKE_BUILD_TYPE:String="Release"\
+      -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
 make package
 mv *.deb *.rpm ../../packages 
 make install 
