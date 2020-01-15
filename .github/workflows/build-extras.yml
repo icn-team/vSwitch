@@ -11,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v1.0.0
       - name: build packages
-        run:  cd extras; bash build.sh ${{ matrix.container }}
+        run: cd extras; bash build.sh ${{ matrix.container }}
