@@ -13,5 +13,9 @@ RUN bash /usr/bin/merge_hostkey.sh sysrepocfg openssl
 RUN bash /usr/bin/merge_config.sh sysrepocfg genkey
 
 WORKDIR /
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY scripts/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
+
+COPY scripts/init.sh /tmp/init.sh
+COPY scripts/startup_template.conf /tmp/startup_template.conf
+ENTRYPOINT ["/bin/bash", "/tmp/init.sh"]
