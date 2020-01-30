@@ -21,5 +21,6 @@ jobs:
           docker buildx build \
             --platform linux/arm64 \
             --output type=docker \
+            --no-cache \
             --file Dockerfile -t icnteam/vswitch:arm64 .
           docker push icnteam/vswitch:arm64 
