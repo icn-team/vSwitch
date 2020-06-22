@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 apt-get update && apt-get install -y curl
 curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | sudo bash
+curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | sudo bash
 apt-get update && apt-get install -y hicn-plugin hicn-plugin-dev vpp libvppinfra libhicn-dev\
         vpp-plugin-core vpp-dev libparc libparc-dev python3-ply python python-ply vpp-plugin-dpdk\
         hicn-utils-memif hicn-collectd-plugins

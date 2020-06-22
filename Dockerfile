@@ -6,6 +6,7 @@ RUN echo "deb [trusted=yes] https://dl.bintray.com/icn-team/apt-hicn-extras bion
 RUN apt-get update && apt-get install -y libyang sysrepo libnetconf2 netopeer2-server
 
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
+RUN curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | bash
 RUN apt-get update && apt-get install -y supervisor hicn-plugin vpp-plugin-dpdk hicn-sysrepo-plugin
 
 RUN bash /usr/bin/setup.sh sysrepoctl /usr/lib/$(uname -m)-linux-gnu/modules_yang root
