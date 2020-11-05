@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install -y libyang sysrepo libnetconf2 netopeer2-s
 
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
 RUN curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | bash
-RUN apt-get update && apt-get install -y supervisor hicn-plugin vpp-plugin-dpdk hicn-sysrepo-plugin
+RUN apt-get update && apt-get install -y supervisor hicn-plugin \
+            vpp-plugin-core  vpp libvppinfra 
 
 RUN bash /usr/bin/setup.sh sysrepoctl /usr/lib/$(uname -m)-linux-gnu/modules_yang root
 RUN bash /usr/bin/merge_hostkey.sh sysrepocfg openssl
