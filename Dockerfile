@@ -1,18 +1,87 @@
+FROM ubuntu:18.04 as intermediate
+
+WORKDIR /hicn-build
+
+# Use bash shell
+SHELL ["/bin/bash", "-c"]
+
+RUN apt-get update
+RUN apt-get install -y git ssh curl wget
+
+# External the repos
+RUN curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | bash
+RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
+RUN echo 'deb http://download.opensuse.org/repositories/home:/liberouter/xUbuntu_18.04/ /' | tee /etc/apt/sources.list.d/home:liberouter.list
+RUN curl -fsSL https://download.opensuse.org/repositories/home:liberouter/xUbuntu_18.04/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/home:liberouter.gpg > /dev/null
+
+RUN apt-get install -y cmake libconfig-dev build-essential libasio-dev --no-install-recommends
+RUN apt-get update && apt-get install -y supervisor hicn-plugin libhicn \
+            vpp-plugin-core  vpp libvppinfra sysrepo libmemif \
+            libssh-4 openssl 
+
+# Libraries to build 
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
+  git \
+  cmake \
+  build-essential \
+  libasio-dev \
+  vpp-dev \
+  libhicn-dev \
+  hicn-plugin-dev \
+  libmemif-dev \
+  libyang-dev \
+  sysrepo-dev \
+  libssh-dev \
+  libssl-dev \
+  python3-ply \
+  --no-install-recommends
+
+# Fetch code to build
+RUN git clone --depth 1 https://github.com/FDio/hicn.git
+RUN git clone --depth 1 --branch v1.1.26 https://github.com/CESNET/libnetconf2.git 
+RUN git clone --depth 1 --branch v1.1.39 https://github.com/CESNET/netopeer2.git
+
+# Build hicn-sysrepo-plugin libnetconf2 netopeer2
+RUN mkdir buildroot-hicn
+RUN mkdir buildroot-libnetconf2
+RUN mkdir buildroot-netopeer2
+
+WORKDIR /hicn-build/buildroot-hicn
+RUN cmake -DCMAKE_INSTALL_PREFIX=/hicn-root \
+          -DSRPD_PLUGINS_PATH=/usr/lib/x86_64-linux-gnu/ \
+          ../hicn/ctrl/sysrepo-plugins
+RUN make -j 4 install 
+
+WORKDIR /hicn-build/buildroot-libnetconf2
+RUN cmake -DCMAKE_INSTALL_PREFIX=/hicn-root ../libnetconf2
+RUN make -j 4 install 
+
+WORKDIR /hicn-build/buildroot-netopeer2
+RUN cmake -DCMAKE_INSTALL_PREFIX=/hicn-root ../netopeer2 
+RUN make -j 4 install
+
+# Final container
+
 FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install -y curl
+RUN apt-get update
+RUN apt-get install -y git ssh curl wget
 
-RUN echo "deb [trusted=yes] https://dl.bintray.com/icn-team/apt-hicn-extras bionic main" | tee -a /etc/apt/sources.list
-RUN apt-get update && apt-get install -y libyang sysrepo libnetconf2 netopeer2-server
-
-RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
+# External the repos
 RUN curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | bash
-RUN apt-get update && apt-get install -y supervisor hicn-plugin \
-            vpp-plugin-core  vpp libvppinfra 
+RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
+RUN echo 'deb http://download.opensuse.org/repositories/home:/liberouter/xUbuntu_18.04/ /' | tee /etc/apt/sources.list.d/home:liberouter.list
+RUN curl -fsSL https://download.opensuse.org/repositories/home:liberouter/xUbuntu_18.04/Release.key | gpg --dearmor | tee /etc/apt/trusted.gpg.d/home:liberouter.gpg > /dev/null
 
-RUN bash /usr/bin/setup.sh sysrepoctl /usr/lib/$(uname -m)-linux-gnu/modules_yang root
-RUN bash /usr/bin/merge_hostkey.sh sysrepocfg openssl
-RUN bash /usr/bin/merge_config.sh sysrepocfg genkey
+RUN apt-get install -y cmake libconfig-dev build-essential libasio-dev --no-install-recommends
+RUN apt-get update && apt-get install -y supervisor hicn-plugin libhicn \
+            vpp-plugin-core  vpp libvppinfra sysrepo libmemif \
+            libssh-4 openssl \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get autoremove -y \
+    && apt-get clean
+
+COPY --from=intermediate /hicn-root /
 
 WORKDIR /
 COPY scripts/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
@@ -20,4 +89,4 @@ CMD ["/usr/bin/supervisord","-c","/etc/supervisor/conf.d/supervisord.conf"]
 
 COPY scripts/init.sh /tmp/init.sh
 COPY scripts/startup_template.conf /tmp/startup_template.conf
-ENTRYPOINT ["/bin/bash", "/tmp/init.sh"]
+#ENTRYPOINT ["/bin/bash", "/tmp/init.sh"]
