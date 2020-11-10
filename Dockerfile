@@ -12,7 +12,6 @@ RUN apt-get install -y git ssh curl wget
 RUN curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | bash
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
 
-RUN apt-get install -y cmake libconfig-dev build-essential libasio-dev --no-install-recommends
 RUN apt-get update && apt-get install -y supervisor hicn-plugin libhicn \
             vpp-plugin-core  vpp libvppinfra libmemif \
             libssh-4 openssl libpcre3 
@@ -80,10 +79,9 @@ RUN apt-get install -y git ssh curl wget
 RUN curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | bash
 RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb.sh | bash
 
-RUN apt-get install -y cmake libconfig-dev build-essential libasio-dev --no-install-recommends
 RUN apt-get update && apt-get install -y supervisor hicn-plugin libhicn \
             vpp-plugin-core  vpp libvppinfra libmemif \
-            libssh-4 openssl \
+            libssh-4 openssl libpcre3 \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get autoremove -y \
     && apt-get clean
