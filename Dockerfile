@@ -21,6 +21,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
   git \
   cmake \
   build-essential \
+  pkg-config \
   libasio-dev \
   vpp-dev \
   libhicn-dev \
@@ -52,13 +53,13 @@ RUN make -j 4 install
 
 WORKDIR /hicn-build/buildroot-sysrepo
 RUN cmake -DCMAKE_INSTALL_PREFIX=/hicn-root ../sysrepo
-RUN make VERBOSE=1 -j 4 install
+RUN make -j 4 install
 
 WORKDIR /hicn-build/buildroot-hicn
 RUN cmake -DCMAKE_INSTALL_PREFIX=/hicn-root \
           -DSRPD_PLUGINS_PATH=/usr/lib/x86_64-linux-gnu/ \
           ../hicn/ctrl/sysrepo-plugins
-RUN make VERBOSE=1 -j 4 install 
+RUN make -j 4 install 
 
 WORKDIR /hicn-build/buildroot-libnetconf2
 RUN cmake -DCMAKE_INSTALL_PREFIX=/hicn-root ../libnetconf2
