@@ -31,9 +31,7 @@ eval sed -e "s/DPDK/\"$(echo $BLOCK)\"/g" -e "s/NUM_BUFFER/\"$(echo $NUM_BUFFER)
 
 /usr/bin/vpp -c /etc/vpp/startup.conf &>log.txt &
 sleep 20
-sysrepod -d -l 0 &
-sleep 5
-sysrepo-plugind -d -l 0 &
+sysrepo-plugind -d &
 sleep 5
 netopeer2-server -d -v 0 &
 sleep 5
