@@ -74,7 +74,7 @@ RUN make -j 4 install
 FROM ubuntu:18.04
 
 RUN apt-get update
-RUN apt-get install -y git ssh curl wget
+RUN apt-get install -y git ssh curl wget iproute2
 
 # External the repos
 RUN curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | bash
