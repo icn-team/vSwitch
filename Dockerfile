@@ -82,7 +82,7 @@ RUN curl -s https://packagecloud.io/install/repositories/fdio/release/script.deb
 
 RUN apt-get update && apt-get install -y supervisor hicn-plugin libhicn \
             vpp-plugin-core  vpp libvppinfra libmemif \
-            libssh-4 openssl libpcre3 \
+            libssh-4 openssl libpcre3 iproute2 iptables \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get autoremove -y \
     && apt-get clean
