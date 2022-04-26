@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 as intermediate
+FROM ubuntu:20.04 as intermediate
 
 WORKDIR /hicn-build
 
@@ -71,7 +71,7 @@ RUN make -j 4 install
 
 # Final container
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 RUN apt-get update
 RUN apt-get install -y git ssh curl wget iproute2
