@@ -21,6 +21,9 @@ RUN apt-get update && apt-get install -y \
             iproute2 \
             iptables \
             frr \
+            net-tools\
+            iputils-ping \
+            tini \
     && rm -rf /var/lib/apt/lists/* \
     && apt-get autoremove -y \
     && apt-get clean
