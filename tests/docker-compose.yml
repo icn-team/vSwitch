@@ -1,0 +1,68 @@
+version: "3"
+services:
+  host1:
+    build:
+      context: .
+      dockerfile: Dockerfile.host
+    container_name: host1
+    hostname: host1
+    networks:
+      - net1
+    init: true
+    privileged: true
+  host2:
+    build:
+      context: .
+      dockerfile: Dockerfile.host
+    container_name: host2
+    hostname: host2
+    networks:
+      - net3
+    init: true
+    privileged: true
+  router1:
+    build:
+      context: .
+      dockerfile: Dockerfile.router
+    container_name: router1
+    hostname: router1
+    networks:
+      - net1
+      - net2
+    privileged: true
+    depends_on:
+      - "host1"
+      - "host2"
+  router2:
+    build:
+      context: .
+      dockerfile: Dockerfile.router
+    container_name: router2
+    hostname: router2
+    networks:
+      - net2
+      - net3
+    privileged: true
+    depends_on:
+      - "host1"
+      - "host2"
+      - "router1"
+networks:
+  net1:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.1.0.0/16
+  net2:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.2.0.0/16
+  net3:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.3.0.0/16
