@@ -28,4 +28,13 @@ RUN apt-get update && apt-get install -y \
     && apt-get autoremove -y \
     && apt-get clean
 
-#ENTRYPOINT ["/bin/bash", "/tmp/init.sh"]
+
+RUN mkdir -p /var/run/frr
+RUN chown -R frr:frr /etc/frr /var/run/frr
+
+WORKDIR /workspace
+COPY daemons /etc/frr/
+COPY frr.conf /etc/frr/
+COPY vtysh.conf /etc/frr/ 
+COPY startup.conf /etc/vpp/
+ENTRYPOINT ["/usr/bin/tini", "--"]

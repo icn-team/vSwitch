@@ -6,10 +6,16 @@ services:
       dockerfile: Dockerfile.host
     container_name: host1
     hostname: host1
+    volumes:
+      - .:/workspace
     networks:
       - net1
     init: true
     privileged: true
+    command:
+      - |
+        route add default gw 10.1.0.3
+        route del default gw 10.1.0.1
   host2:
     build:
       context: .
@@ -20,6 +26,10 @@ services:
       - net3
     init: true
     privileged: true
+    command:
+      - |
+        route add default gw 10.3.0.3
+        route del default gw 10.3.0.1
   router1:
     build:
       context: .
