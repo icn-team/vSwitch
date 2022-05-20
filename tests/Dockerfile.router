@@ -1,15 +1,10 @@
 FROM ubuntu:20.04
 
-SHELL ["/bin/bash", "-c"]
-ARG DEBIAN_FRONTEND=
-
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update
 RUN apt-get install -y git ssh curl wget iproute2
-
-# External the repos
 RUN curl -s https://packagecloud.io/install/repositories/fdio/2202/script.deb.sh | bash
 RUN curl -s https://packagecloud.io/install/repositories/fdio/hicn/script.deb.sh | bash
-
 RUN apt-get update && apt-get install -y \
             hicn-plugin \
             vpp-plugin-core \
@@ -28,13 +23,16 @@ RUN apt-get update && apt-get install -y \
     && apt-get autoremove -y \
     && apt-get clean
 
-
 RUN mkdir -p /var/run/frr
 RUN chown -R frr:frr /etc/frr /var/run/frr
-
-WORKDIR /workspace
+RUN mkdir -p /var/log/vpp
 COPY daemons /etc/frr/
-COPY frr.conf /etc/frr/
-COPY vtysh.conf /etc/frr/ 
+COPY vtysh.conf /etc/frr/
+COPY frr-start.sh /usr/lib/frr/
+ARG FILENAME
+COPY  ${FILENAME} /etc/frr/frr.conf
 COPY startup.conf /etc/vpp/
+WORKDIR /workspace
+
 ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["/usr/lib/frr/frr-start.sh"]

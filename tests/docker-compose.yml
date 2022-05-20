@@ -12,30 +12,38 @@ services:
       - net1
     init: true
     privileged: true
+    entrypoint: [/bin/bash, -ex, -c]
     command:
-      - |
-        route add default gw 10.1.0.3
-        route del default gw 10.1.0.1
+      - route add default gw 10.1.0.3
+      - route del default gw 10.1.0.1
+      - tail -f /dev/null
   host2:
     build:
       context: .
       dockerfile: Dockerfile.host
     container_name: host2
     hostname: host2
+    volumes:
+      - .:/workspace
     networks:
       - net3
     init: true
     privileged: true
+    entrypoint: [/bin/bash, -ex, -c]
     command:
-      - |
-        route add default gw 10.3.0.3
-        route del default gw 10.3.0.1
+      - route add default gw 10.3.0.3
+      - route del default gw 10.3.0.1
+      - tail -f /dev/null
   router1:
     build:
       context: .
       dockerfile: Dockerfile.router
+      args:
+        FILENAME: frr-router1.conf
     container_name: router1
     hostname: router1
+    volumes:
+      - .:/workspace
     networks:
       - net1
       - net2
@@ -47,8 +55,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.router
+      args:
+        FILENAME: frr-router2.conf
     container_name: router2
     hostname: router2
+    volumes:
+      - .:/workspace
     networks:
       - net2
       - net3
